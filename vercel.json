@@ -12,10 +12,11 @@
         "dest": "/"
       }
     ],
-    "functions": {
-      "*.js": {
+   "functions": {
+      "**/*.js": {
         "maxDuration": 60 
       }
     }
   }
+  
   
