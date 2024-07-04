@@ -64,75 +64,8 @@ app.get("/pkdownload", async (req, res) => {
 
 })
 
-
-app.get('/api/movies', async (req, res) => {
-const name = req.query?.name || ""
-console.log(name);
-console.log(encodeURIComponent(name));
-    try {
-        const url = name.length > 1 ? `https://watch-movies.com.pk/?s=${encodeURIComponent(name)}` : "https://www.watch-movies.com.pk/"
-       
-        const searchResponse = await axios.get(url);
-        const $ = cheerio.load(searchResponse.data);
-
-        const movies = [];
-        $('.postbox').each((i, element) => {
-            const titleElement = $(element).find('.boxtitle a');
-            const title = titleElement.attr('title');
-            const link = titleElement.attr('href');
-            const thumbnail = $(element).find('.thumnail-imagee img').data('src');
-            const views = $(element).find('.boxmetadata .views').text().replace('Views : ', '');
-
-            movies.push({
-                title,
-                link,
-                thumbnail,
-                views,
-            });
-        });
-
-
-
-        res.json(movies);
-    } catch (error) {
-        console.error('Error fetching movie data:', error);
-        res.status(500).json({ error: 'Failed to fetch movie data' });
-    }
-});
-
-app.get('/movies', async (req, res) => {
-    const { name } = req.query;
-
-   
-    try {
-        const response = await axios.get(` https://movieflicks-one.vercel.app/api/movies`, { params: { name } });
-        res.render('index', { movies: response.data, error: null });
-    } catch (error) {
-        console.error('Error fetching movie data:', error);
-        res.render('index', { movies: [], error: 'Failed to fetch movie data' });
-    }
-});
-
-app.get('/', async (req, res) => {
-
-    const name = ""
-    try {
-        const response = await axios.get(`https://movieflicks-one.vercel.app/api/movies`, { params: { name } });
-        res.render('index', { movies: response.data, error: null });
-    } catch (error) {
-        console.error('Error fetching movie data:', error);
-    }
-
-   
-
-
-
-
-});
-
-
 app.get("/downlaodmovies", async (req, res) => {
-    try {
+        try {
         const { link } = req.query;
 
         // Fetch the HTML from the given link
@@ -159,6 +92,50 @@ app.get("/downlaodmovies", async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch data' });
     }
 })
+
+
+async function ha(req,res) {
+            
+    const name = req.query?.name || ""
+    
+    try {
+        const url = name.length > 1 ? `https://watch-movies.com.pk/?s=${encodeURIComponent(name)}` : "https://www.watch-movies.com.pk/"
+       
+        const searchResponse = await axios.get(url);
+        const $ = cheerio.load(searchResponse.data);
+    
+        const movies = [];
+        $('.postbox').each((i, element) => {
+            const titleElement = $(element).find('.boxtitle a');
+            const title = titleElement.attr('title');
+            const link = titleElement.attr('href');
+            const thumbnail = $(element).find('.thumnail-imagee img').data('src');
+            const views = $(element).find('.boxmetadata .views').text().replace('Views : ', '');
+    
+            movies.push({
+                title,
+                link,
+                thumbnail,
+                views,
+            });
+        });
+    
+    
+        res.render('index', { movies, error: null });
+      
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+        res.status(500).json({ error: 'Failed to fetch movie data' });
+    }
+    
+    }
+    
+
+app.get('/movies',ha);
+app.get('/', ha);
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+app.setTimeout(10000);
