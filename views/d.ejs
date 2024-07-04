@@ -5,25 +5,13 @@
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="bTRlMgrBbckq_jgRj0Eiw0ds2p2lBt0zADKkc6Ydch0" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Search | Download and Watch Movies Online</title>
-
-
-    <meta name="description"
-        content="Search, download, and watch your favorite movies online. Enjoy a vast collection of movies available at your fingertips.">
+    <meta name="description" content="Search, download, and watch your favorite movies online. Enjoy a vast collection of movies available at your fingertips.">
     <meta name="keywords" content="movies, download movies, watch movies online, movie search, streaming movies">
-
-    <!-- Open Graph Meta Tags for Social Media -->
     <meta property="og:title" content="Movie Search | Download and Watch Movies Online">
-    <meta property="og:description"
-        content="Search, download, and watch your favorite movies online. Enjoy a vast collection of movies available at your fingertips.">
-
-    <!-- <meta property="og:url" content="https://yourwebsite.com"> -->
+    <meta property="og:description" content="Search, download, and watch your favorite movies online. Enjoy a vast collection of movies available at your fingertips.">
     <meta property="og:type" content="website">
-
     <title>Movie Search</title>
-    <link rel="stylesheet" href="/styles.css">
+   
 </head>
 <style>
     .loader {
@@ -212,65 +200,75 @@
         background-color: #040609;
     }
 </style>
-
 <body>
-    <br>
-
     <div style="text-align: center;">
         <h1>Movie Search</h1>
         <p style="color: #fff; width: 100%;">Search, download, and watch your favorite movies online.</p>
     </div>
 
-    <form action="/movies" method="GET" onsubmit="handleIt(event)">
+    <form id="movieForm">
         <div class="center">
-            <input type="text" name="name" placeholder="Enter movie name" required>
+            <input type="text" name="name" id="movieName" placeholder="Enter movie name" required>
             <button type="submit">Search</button>
         </div>
     </form>
+
+    <div class="center onett" style="display: none;">
+        <div class="loader"></div>
+    </div>
+
+    <div class="movies" id="moviesContainer"></div>
+    <p id="noMoviesMessage" style="text-align: center; width: 100%; color: white; display: none;">No movies found, please try to search.</p>
+
     <script>
-        function handleIt(event) {
-        event.preventDefault(); // Prevent the form from submitting immediately
-        document.getElementsByClassName("onett")[0].style.display = "flex";
-        setTimeout(() => {
-            document.getElementsByTagName("form")[0].submit();
-        }, 200);
-    }
-    </script>
 
-    <% if (error) { %>
-        <p>
-            <%= error %>
-        </p>
-        <% } %>
+const urlParams = new URLSearchParams(window.location.search);
+const movieNameParam = urlParams.get('name');
 
-            <div class="movies">
-                <% movies.forEach(movie=> { %>
-                    <a href="/downlaodmovies/?link=<%= movie.link %>">
-                        <div class="movie-card">
-                            <div class="shdow"></div>
+      
+                fetchMovies(movieNameParam);
+            
+    
 
-                            <div class="img">
-                                <img src="<%= movie.thumbnail %>" alt="<%= movie.title %>">
+        async function fetchMovies(name) {
+            const loader = document.querySelector('.onett');
+            const moviesContainer = document.getElementById('moviesContainer');
+            const noMoviesMessage = document.getElementById('noMoviesMessage');
+
+            loader.style.display = 'flex';
+            moviesContainer.innerHTML = '';
+            noMoviesMessage.style.display = 'none';
+
+            try {
+                const response = await fetch(`/search?name=${name}`);
+                const data = await response.json();
+
+                if (data.movies && data.movies.length > 0) {
+                    data.movies.forEach(movie => {
+                        const movieCard = document.createElement('a');
+                        movieCard.href = `/downloadmovies/?link=${movie.link}`;
+                        movieCard.innerHTML = `
+                            <div class="movie-card">
+                                <div class="shdow"></div>
+                                <div class="img">
+                                    <img src="${movie.thumbnail}" alt="${movie.title}">
+                                </div>
+                                <h2>${movie.title}</h2>
+                                <p>Views: ${movie.views}</p>
                             </div>
-                            <h2>
-                                <%= movie.title %>
-                            </h2>
-                            <p>Views: <%= movie.views %>
-                            </p>
-
-                        </div>
-                    </a>
-                    <% }) %>
-
-
-            </div>
-            <% if (movies.length < 1) { %>
-                <p style="text-align: center; width: 100%; color: white;">No movies found, please try to search.</p>
-                <% } %>
-
-                    <div class="center onett">
-                        <div class="loader"></div>
-                    </div>
+                        `;
+                        moviesContainer.appendChild(movieCard);
+                    });
+                } else {
+                    noMoviesMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error fetching movies:', error);
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -129,8 +129,41 @@ async function ha(req,res) {
     
     }
     
-
-app.get('/movies',ha);
+app.get("/search",(req,res)=>{
+    const name = req.query?.name || ""
+    
+    try {
+        const url = name.length > 1 ? `https://watch-movies.com.pk/?s=${encodeURIComponent(name)}` : "https://www.watch-movies.com.pk/"
+       
+        const searchResponse = await axios.get(url);
+        const $ = cheerio.load(searchResponse.data);
+    
+        const movies = [];
+        $('.postbox').each((i, element) => {
+            const titleElement = $(element).find('.boxtitle a');
+            const title = titleElement.attr('title');
+            const link = titleElement.attr('href');
+            const thumbnail = $(element).find('.thumnail-imagee img').data('src');
+            const views = $(element).find('.boxmetadata .views').text().replace('Views : ', '');
+    
+            movies.push({
+                title,
+                link,
+                thumbnail,
+                views,
+            });
+        });
+    
+    
+        res.json({movies});
+      
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+        res.status(500).json({ error: 'Failed to fetch movie data' });
+    }
+    
+})
+app.get('/movies',(req,res)=>{res.render('d')});
 app.get('/', ha);
 
 
