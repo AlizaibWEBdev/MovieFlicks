@@ -129,7 +129,7 @@ async function ha(req,res) {
     
     }
     
-app.get("/search",(req,res)=>{
+app.get("/search", async(req,res)=>{
     const name = req.query?.name || ""
     
     try {
