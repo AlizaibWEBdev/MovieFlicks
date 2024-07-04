@@ -66,7 +66,7 @@ app.get("/pkdownload", async (req, res) => {
 
 
 app.get('/api/movies', async (req, res) => {
-const {name} = req.query || ""
+const name = req.query?.name || ""
 console.log(name);
 console.log(encodeURIComponent(name));
     try {
