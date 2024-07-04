@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Download Links</h1>
+    <ul>
+        <% downloadLinks.forEach(link => { %>
+            <li>
+               <a href="https://embedpk.net/dl?op=download_orig&id=<%=link.id%>&mode=<%=link.mode%>&hash=<%=link.hash%>">
+
+                   <button type="button">Download <%= link.quality %> &DownArrow;</button>
+               </a>
+              
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>
