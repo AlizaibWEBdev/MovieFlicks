@@ -66,7 +66,9 @@ app.get("/pkdownload", async (req, res) => {
 
 
 app.get('/api/movies', async (req, res) => {
-const {name} = req.query
+const {name} = req.query || ""
+console.log(name);
+console.log(encodeURIComponent(name));
     try {
         const url = name.length > 1 ? `https://watch-movies.com.pk/?s=${encodeURIComponent(name)}` : "https://www.watch-movies.com.pk/"
        
