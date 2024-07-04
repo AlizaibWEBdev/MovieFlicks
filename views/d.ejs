@@ -228,46 +228,63 @@ const movieNameParam = urlParams.get('name');
       
                 fetchMovies(movieNameParam);
             
+async function fetchMovies(name) {
+    const loader = document.querySelector('.onett');
+    const moviesContainer = document.getElementById('moviesContainer');
+    const noMoviesMessage = document.getElementById('noMoviesMessage');
+    
+    loader.style.display = 'flex';
+    moviesContainer.innerHTML = '';
+    noMoviesMessage.style.display = 'none';
+    
+    let attempts = 0;
+    const maxAttempts = 3;
+
+    while (attempts < maxAttempts) {
+        try {
+            const response = await fetch(`/search?name=${name}`);
+            const data = await response.json();
+
+            if (data.movies && data.movies.length > 0) {
+                data.movies.forEach(movie => {
+                    const movieCard = document.createElement('a');
+                    movieCard.href = `/downloadmovies/?link=${movie.link}`;
+                    movieCard.innerHTML = `
+                        <div class="movie-card">
+                            <div class="shdow"></div>
+                            <div class="img">
+                                <img src="${movie.thumbnail}" alt="${movie.title}">
+                            </div>
+                            <h2>${movie.title}</h2>
+                            <p>Views: ${movie.views}</p>
+                        </div>
+                    `;
+                    moviesContainer.appendChild(movieCard);
+                });
+                // If successful, break out of the retry loop
+                break;
+            } else {
+                noMoviesMessage.style.display = 'block';
+                // Break out of retry loop as there are no movies to display
+                break;
+            }
+        } catch (error) {
+            console.error(`Attempt ${attempts + 1} failed to fetch movies:`, error);
+            attempts++;
+            // Wait for a moment before retrying (optional)
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+        } finally {
+            loader.style.display = 'none';
+        }
+    }
+
+    if (attempts === maxAttempts) {
+        console.error(`Failed to fetch movies after ${maxAttempts} attempts.`);
+        // Optionally, display an error message or handle the failure
+    }
+}
     
 
-        async function fetchMovies(name) {
-            const loader = document.querySelector('.onett');
-            const moviesContainer = document.getElementById('moviesContainer');
-            const noMoviesMessage = document.getElementById('noMoviesMessage');
-
-            loader.style.display = 'flex';
-            moviesContainer.innerHTML = '';
-            noMoviesMessage.style.display = 'none';
-
-            try {
-                const response = await fetch(`/search?name=${name}`);
-                const data = await response.json();
-
-                if (data.movies && data.movies.length > 0) {
-                    data.movies.forEach(movie => {
-                        const movieCard = document.createElement('a');
-                        movieCard.href = `/downloadmovies/?link=${movie.link}`;
-                        movieCard.innerHTML = `
-                            <div class="movie-card">
-                                <div class="shdow"></div>
-                                <div class="img">
-                                    <img src="${movie.thumbnail}" alt="${movie.title}">
-                                </div>
-                                <h2>${movie.title}</h2>
-                                <p>Views: ${movie.views}</p>
-                            </div>
-                        `;
-                        moviesContainer.appendChild(movieCard);
-                    });
-                } else {
-                    noMoviesMessage.style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Error fetching movies:', error);
-            } finally {
-                loader.style.display = 'none';
-            }
-        }
     </script>
 </body>
 
