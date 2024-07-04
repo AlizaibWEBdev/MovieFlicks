@@ -248,7 +248,7 @@ async function fetchMovies(name) {
             if (data.movies && data.movies.length > 0) {
                 data.movies.forEach(movie => {
                     const movieCard = document.createElement('a');
-                    movieCard.href = `/downloadmovies/?link=${movie.link}`;
+                    movieCard.href = `/downlaodmovies/?link=${movie.link}`;
                     movieCard.innerHTML = `
                         <div class="movie-card">
                             <div class="shdow"></div>
