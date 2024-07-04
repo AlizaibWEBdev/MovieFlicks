@@ -8,9 +8,9 @@ const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-
-
-
+function getBaseUrl(req) {
+    return `${req.protocol}://${req.get('host')}`;
+}
 
 app.get("/pkdownload", async (req, res) => {
     const { link } = req.query;
@@ -54,22 +54,19 @@ app.get("/pkdownload", async (req, res) => {
 
         // Here you can decide how to handle the download links, e.g., render them in another EJS file
         // For now, let's just send them as JSON
-
-        res.render('finaldonwload', { downloadLinks });
+        res.render('finaldownload', { downloadLinks });
 
     } catch (error) {
         console.error(error);
         res.status(500).send("An error occurred while fetching or parsing the link");
     }
-
-})
-
+});
 
 app.get('/api/movies', async (req, res) => {
-const {name} = req.query
+    const { name } = req.query;
     try {
-        const url = name.length > 1 ? `https://watch-movies.com.pk/?s=${encodeURIComponent(name)}` : "https://www.watch-movies.com.pk/"
-       
+        const url = name.length > 1 ? `https://watch-movies.com.pk/?s=${encodeURIComponent(name)}` : "https://www.watch-movies.com.pk/";
+
         const searchResponse = await axios.get(url);
         const $ = cheerio.load(searchResponse.data);
 
@@ -89,8 +86,6 @@ const {name} = req.query
             });
         });
 
-
-
         res.json(movies);
     } catch (error) {
         console.error('Error fetching movie data:', error);
@@ -100,10 +95,10 @@ const {name} = req.query
 
 app.get('/movies', async (req, res) => {
     const { name } = req.query;
-
+    const baseUrl = getBaseUrl(req);
 
     try {
-        const response = await axios.get(`http://localhost:${PORT}/api/movies`, { params: { name } });
+        const response = await axios.get(`${baseUrl}/api/movies`, { params: { name } });
         res.render('index', { movies: response.data, error: null });
     } catch (error) {
         console.error('Error fetching movie data:', error);
@@ -112,24 +107,19 @@ app.get('/movies', async (req, res) => {
 });
 
 app.get('/', async (req, res) => {
+    const name = "";
+    const baseUrl = getBaseUrl(req);
 
-    const name = ""
     try {
-        const response = await axios.get(`http://localhost:${PORT}/api/movies`, { params: { name } });
+        const response = await axios.get(`${baseUrl}/api/movies`, { params: { name } });
         res.render('index', { movies: response.data, error: null });
     } catch (error) {
         console.error('Error fetching movie data:', error);
+        res.render('index', { movies: [], error: 'Failed to fetch movie data' });
     }
-
-   
-
-
-
-
 });
 
-
-app.get("/downlaodmovies", async (req, res) => {
+app.get("/downloadmovies", async (req, res) => {
     try {
         const { link } = req.query;
 
@@ -150,13 +140,14 @@ app.get("/downlaodmovies", async (req, res) => {
         });
 
         // Send the extracted links and their texts as a response
-        res.render('downlaod', { links: links });
+        res.render('download', { links: links });
 
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).json({ error: 'Failed to fetch data' });
     }
-})
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
