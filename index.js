@@ -63,7 +63,23 @@ app.get("/pkdownload", async (req, res) => {
     }
 
 })
+app.get("/watchAndDownlaod",async(req,res)=>{
+    let {link} = req.query;
+    try {
+        const { link } = req.query;
 
+        // Fetch the HTML from the given link
+        const searchResponse = await axios.get(link);
+
+        // Load the HTML into Cheerio
+        const $ = cheerio.load(searchResponse.data);
+
+        // Extract all the a tags inside the .singcont div
+        res.send($.html())
+    } catch (error) {
+        
+    }
+})
 app.get("/downlaodmovies", async (req, res) => {
         try {
         const { link } = req.query;
