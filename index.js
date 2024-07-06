@@ -71,11 +71,12 @@ app.get("/watchAndDownlaod",async(req,res)=>{
         // Fetch the HTML from the given link
         const searchResponse = await axios.get(link);
 
-        // Load the HTML into Cheerio
-        const $ = cheerio.load(searchResponse.data);
+        console.log(searchResponse.data);
+        
+        // const $ = cheerio.load(searchResponse.data);
 
-        // Extract all the a tags inside the .singcont div
-        res.send($.html())
+        // console.log($.html);
+        res.send("hi")
     } catch (error) {
         
     }
