@@ -77,9 +77,11 @@
         <div class="btn-container">
             <% links.forEach(function(link) { %>
                 <% if (link.href.includes("embedpk")) { %>
-                    <a href="/pkdownload?link=<%= link.href %>" class="btn"><%= link.text.replace("PkSpeed ","").replace("0p","0").replace("Click To Download","")></a>
+                    <a href="/pkdownload?link=<%= link.href %>" class="btn">
+                        <%= link.text.replace("PkSpeed ", "").replace("0p", "0").replace("Click To Download", "") %>
+                    </a>
                 <% } %>
-            <% }); %>
+            <% }); %>good
         </div>
     </div>
 </body>
