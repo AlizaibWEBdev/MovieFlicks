@@ -191,7 +191,7 @@ app.get('/pages', async (req,res)=>{
 
     const {id} = req.query;
     try {
-        const url = "https://www.watch-movies.com.pk/page/${id}/"
+        const url = `https://www.watch-movies.com.pk/page/${id}/`
        
         const searchResponse = await axios.get(url);
         const $ = cheerio.load(searchResponse.data);
