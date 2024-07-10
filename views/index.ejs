@@ -23,7 +23,7 @@
     <meta property="og:type" content="website">
 
     <title>Movie Search</title>
-  
+
     <link rel="icon" href="/icon.png" type="image/png">
 </head>
 <style>
@@ -190,7 +190,7 @@
         margin: 5px 0;
     }
 
-  
+
     .center {
         display: flex;
         align-items: center;
@@ -208,6 +208,7 @@
         z-index: 9999;
         background-color: #040609;
     }
+
     .header {
         padding: 10px;
 
@@ -346,44 +347,47 @@
         height: 5px;
         background: linear-gradient(45deg, darkblue, #1d75b9);
     }
+
     .movie-card img {
         width: 150px;
     }
 
 
-form button img {
+    form button img {
 
-  width: 25px;
+        width: 25px;
 
-}
+    }
 
-.pagination {
-  position: relative;
-  height: 60px;
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(3px);
-  border-radius: 2px;
-}
- .pagination li {
-  list-style-type: none;
-  display: inline-block;
-}
- .pagination li a {
-  position: relative;
-  padding: 20px 25px;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 500;
-}
- .pagination li a:hover,
- .pagination li.active a {
-  background: rgba(255, 255, 255, 0.2);
-}
+    .pagination {
+        position: relative;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(3px);
+        border-radius: 2px;
+    }
 
+    .pagination li {
+        list-style-type: none;
+        display: inline-block;
+    }
+
+    .pagination li a {
+        position: relative;
+        padding: 20px 25px;
+        text-decoration: none;
+        color: #fff;
+        font-weight: 500;
+    }
+
+    .pagination li a:hover,
+    .pagination li.active a {
+        background: rgba(255, 255, 255, 0.2);
+    }
 </style>
 
 <body>
@@ -401,9 +405,9 @@ form button img {
             <div class="center">
                 <input type="text" name="name" placeholder="Enter movie name" required>
                 <button type="submit">
-<img src="movie.png">
+                    <img src="movie.png">
 
-</button>
+                </button>
             </div>
         </form>
     </div>
@@ -411,7 +415,7 @@ form button img {
         <h3>Recomended</h3>
     </div>
     <div class="row" id="scroll-row-wise">
-        <% for (let i = 0; i < movies.length; i++) { %>
+        <% for (let i=0; i < movies.length; i++) { %>
             <% if (i < 6) { %>
                 <div class="movie-card">
                     <a href="/downlaodmovies/?link=<%= movies[i].link %>">
@@ -419,76 +423,89 @@ form button img {
                         <div class="img">
                             <img src="<%= movies[i].thumbnail %>" alt="<%= movies[i].title %>">
                         </div>
-                        <h2><%= movies[i].title %></h2>
-                        <p>Views: <%= movies[i].views %></p>
+                        <h2>
+                            <%= movies[i].title %>
+                        </h2>
+                        <p>Views: <%= movies[i].views %>
+                        </p>
                     </a>
                 </div>
-            <% } %>
-        <% } %>
+                <% } %>
+                    <% } %>
     </div>
-    
+
     <div class="hading-sec-2">
         <h3>Top Movies</h3>
     </div>
     <div class="movies">
-        <% for (let i = 0; i < movies.length; i++) { %>
-            <% if (i >= 6) { %>
+        <% for (let i=0; i < movies.length; i++) { %>
+            <% if (i>= 6) { %>
                 <div class="movie-card">
                     <a href="/downlaodmovies/?link=<%= movies[i].link %>">
                         <div class="shdow"></div>
                         <div class="img">
                             <img src="<%= movies[i].thumbnail %>" alt="<%= movies[i].title %>">
                         </div>
-                        <h2><%= movies[i].title %></h2>
-                        <p>Views: <%= movies[i].views %></p>
+                        <h2>
+                            <%= movies[i].title %>
+                        </h2>
+                        <p>Views: <%= movies[i].views %>
+                        </p>
                     </a>
                 </div>
-            <% } %>
-        <% } %>
+                <% } %>
+                    <% } %>
     </div>
-    
+
     <% if (movies.length < 1) { %>
         <p style="text-align: center; width: 100%; color: white;">No movies found, please try to search.</p>
-    <% } %>
-    
-    <div class="center onett">
-        <div class="loader"></div>
-    </div>
-    
-    <p id="error-message" style="text-align: center; width: 100%; color: white;"></p>
-    
-  <ul class="pagination">
-    <li>
-      <a href="#">Prev</a>
-    </li>
-    <li>
-      <a href="#">1</a>
-    </li>
-    <li class="active">
-      <a href="#">2</a>
-    </li>
-    <li>
-      <a href="#">3</a>
-    </li>
-    <li>
-      <a href="#">4</a>
-    </li>
-    <li>
-      <a href="#">5</a>
-    </li>
-    <li>
-      <a href="#">Next</a>
-    </li>
-  </ul>
-    <script>
-        function handleIt(event) {
-        event.preventDefault(); // Prevent the form from submitting immediately
-        document.getElementsByClassName("onett")[0].style.display = "flex";
-        setTimeout(() => {
-            document.getElementsByTagName("form")[0].submit();
-        }, 200);
-    }
-    </script>
+        <% } %>
+
+            <div class="center onett">
+                <div class="loader"></div>
+            </div>
+
+            <p id="error-message" style="text-align: center; width: 100%; color: white;"></p>
+
+
+            <ul class="pagination" id="pages">
+
+                <li>
+                    <a href="#">1</a>
+                </li>
+                <li>
+                    <a href="#">2</a>
+                </li>
+                <li>
+                    <a href="#">3</a>
+                </li>
+                <li>
+                    <a href="#">4</a>
+                </li>
+                <li>
+                    <a href="#">5</a>
+                </li>
+                <li>
+                    <a href="#">6</a>
+                </li>
+            </ul>
+            <script>
+                function handleIt(event) {
+                    event.preventDefault(); // Prevent the form from submitting immediately
+                    document.getElementsByClassName("onett")[0].style.display = "flex";
+                    setTimeout(() => {
+                        document.getElementsByTagName("form")[0].submit();
+                    }, 200);
+                }
+
+                let pages  = document.querySelectorAll("#pages a")
+                for (const iterator of pages) {
+                    iterator.addEventListener("click",(e)=>{
+                        e.preventDefault();
+                        console.log(e.target.innerText);
+                    })
+                }
+            </script>
 
 </body>
 
