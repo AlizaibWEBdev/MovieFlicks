@@ -356,6 +356,34 @@ form button img {
   width: 25px;
 
 }
+
+.pagination {
+  position: relative;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+  border-radius: 2px;
+}
+ .pagination li {
+  list-style-type: none;
+  display: inline-block;
+}
+ .pagination li a {
+  position: relative;
+  padding: 20px 25px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+}
+ .pagination li a:hover,
+ .pagination li.active a {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 </style>
 
 <body>
@@ -429,6 +457,29 @@ form button img {
     
     <p id="error-message" style="text-align: center; width: 100%; color: white;"></p>
     
+  <ul class="pagination">
+    <li>
+      <a href="#">Prev</a>
+    </li>
+    <li>
+      <a href="#">1</a>
+    </li>
+    <li class="active">
+      <a href="#">2</a>
+    </li>
+    <li>
+      <a href="#">3</a>
+    </li>
+    <li>
+      <a href="#">4</a>
+    </li>
+    <li>
+      <a href="#">5</a>
+    </li>
+    <li>
+      <a href="#">Next</a>
+    </li>
+  </ul>
     <script>
         function handleIt(event) {
         event.preventDefault(); // Prevent the form from submitting immediately
