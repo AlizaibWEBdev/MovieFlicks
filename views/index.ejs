@@ -382,27 +382,56 @@
             </div>
         </form>
     </div>
-
     <div class="hading-sec-2">
-        <h3>Recomended </h3>
+        <h3>Recomended</h3>
     </div>
     <div class="row" id="scroll-row-wise">
-
+        <% for (let i = 0; i < movies.length; i++) { %>
+            <% if (i < 6) { %>
+                <div class="movie-card">
+                    <a href="/downlaodmovies/?link=<%= movies[i].link %>">
+                        <div class="shdow"></div>
+                        <div class="img">
+                            <img src="<%= movies[i].thumbnail %>" alt="<%= movies[i].title %>">
+                        </div>
+                        <h2><%= movies[i].title %></h2>
+                        <p>Views: <%= movies[i].views %></p>
+                    </a>
+                </div>
+            <% } %>
+        <% } %>
     </div>
-
+    
     <div class="hading-sec-2">
-        <h3>Top Movies </h3>
+        <h3>Top Movies</h3>
     </div>
-    <div id="movie-container" class="movies"></div>
-
-    <p id="error-message" style="text-align: center; width: 100%; color: white;"></p>
-
-    <div class="center onett" style="display: none;">
+    <div class="movies">
+        <% for (let i = 0; i < movies.length; i++) { %>
+            <% if (i >= 6) { %>
+                <div class="movie-card">
+                    <a href="/downlaodmovies/?link=<%= movies[i].link %>">
+                        <div class="shdow"></div>
+                        <div class="img">
+                            <img src="<%= movies[i].thumbnail %>" alt="<%= movies[i].title %>">
+                        </div>
+                        <h2><%= movies[i].title %></h2>
+                        <p>Views: <%= movies[i].views %></p>
+                    </a>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+    
+    <% if (movies.length < 1) { %>
+        <p style="text-align: center; width: 100%; color: white;">No movies found, please try to search.</p>
+    <% } %>
+    
+    <div class="center onett">
         <div class="loader"></div>
     </div>
- 
-
-   
+    
+    <p id="error-message" style="text-align: center; width: 100%; color: white;"></p>
+    
     <script>
         function handleIt(event) {
         event.preventDefault(); // Prevent the form from submitting immediately
@@ -413,40 +442,6 @@
     }
     </script>
 
-    <% if (error) { %>
-        <p>
-            <%= error %>
-        </p>
-        <% } %>
-
-            <div class="movies">
-                <% movies.forEach(movie=> { %>
-                    <a href="/downlaodmovies/?link=<%= movie.link %>">
-                        <div class="movie-card">
-                            <div class="shdow"></div>
-
-                            <div class="img">
-                                <img src="<%= movie.thumbnail %>" alt="<%= movie.title %>">
-                            </div>
-                            <h2>
-                                <%= movie.title %>
-                            </h2>
-                            <p>Views: <%= movie.views %>
-                            </p>
-
-                        </div>
-                    </a>
-                    <% }) %>
-
-
-            </div>
-            <% if (movies.length < 1) { %>
-                <p style="text-align: center; width: 100%; color: white;">No movies found, please try to search.</p>
-                <% } %>
-
-                    <div class="center onett">
-                        <div class="loader"></div>
-                    </div>
 </body>
 
 </html>
