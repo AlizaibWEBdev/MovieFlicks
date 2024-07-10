@@ -187,7 +187,7 @@ app.get('/movies',(req,res)=>{res.render('d')});
 
 
 
-app.get('/pages',(req,res)=>{
+app.get('/pages', async (req,res)=>{
 
     const {id} = req.query;
     try {
