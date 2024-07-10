@@ -510,8 +510,8 @@
                         try {
                             const response = await fetch(`https://movieflicks-one.vercel.app/pages?id=${e.target.innerText}`);
                             const data = await response.json();
-                            let movies = data;
-                            console.log(movies);
+                            let movies = data.movies;
+
                             moviesContainer.innerHTML = "";
                             movies.forEach((movie) => {
                                 moviesContainer.innerHTML += `
