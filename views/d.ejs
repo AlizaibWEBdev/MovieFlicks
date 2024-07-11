@@ -438,8 +438,7 @@ async function fetchMovies(name) {
         try {
             const response = await fetch(`/search?name=${name}`);
             const data = await response.json();
-            const row = document.getElementById("scroll-row-wise");
-            row.innerHTML = "";
+           
             let i = 0;
             if (data.movies && data.movies.length > 0) {
                 data.movies.forEach(movie => {
