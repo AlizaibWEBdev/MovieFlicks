@@ -9,8 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Search | Download and Watch Movies Online</title>
 
-<meta name="description" content="Discover, download, and watch a vast collection of your favorite movies online. Enjoy seamless streaming and easy access to a wide variety of genres, all at your fingertips.">
-<meta name="keywords" content="movies, download movies, watch movies online, movie search, streaming movies">
+    <meta name="description"
+        content="Discover, download, and watch a vast collection of your favorite movies online. Enjoy seamless streaming and easy access to a wide variety of genres, all at your fingertips.">
+    <meta name="keywords" content="movies, download movies, watch movies online, movie search, streaming movies">
 
 
     <!-- Open Graph Meta Tags for Social Media -->
@@ -75,7 +76,7 @@
 
     h1 {
         text-align: center;
-        font-size:2vmax;
+        font-size: 2vmax;
         color: white;
 
     }
@@ -389,25 +390,110 @@
     .pagination li.active a {
         background: rgba(255, 255, 255, 0.2);
     }
+
     footer {
-    background: #333;
-    color: #fff;
+        background: #333;
+        color: #fff;
+        text-align: center;
+        height: 80px;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    footer p {
+        margin: 0;
+        min-width: 280px;
+        text-align: center;
+    }
+
+    /* Popup Background */
+#popup-background {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    backdrop-filter: blur(5px); /* Applies blur effect to the background */
+}
+
+/* Message Box */
+#message-box {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
     text-align: center;
-    height: 80px;
-    width: 100vw;
+}
+
+#message-content {
+    margin-bottom: 20px;
+}
+
+#message-content p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.button-container {
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
-footer p {
-    margin: 0;
-    min-width: 280px;
-    text-align: center;
+#yes-button, #no-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
 }
+
+#yes-button:hover, #no-button:hover {
+    background-color: #0056b3;
+}
+
+#close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #007bff;
+}
+
+
 </style>
 
 <body>
+    <div id="popup-background"></div>
+
+    <div id="message-box">
+        <div id="message-content">
+            <p>Do you want to watch movies based on your mood?</p>
+            <div class="button-container">
+                <button id="yes-button">Yes</button>
+                <button id="no-button">No</button>
+            </div>
+        </div>
+        <span id="close-button">&times;</span>
+    </div>
+
+
     <div class="hero">
         <header class="header">
             <div class="logo">
@@ -450,16 +536,7 @@ footer p {
                 <% } %>
                     <% } %>
     </div>
-<script type="text/javascript">
-	atOptions = {
-		'key' : 'b74f4d47475cd0d70d66f6175ec43d12',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.topcreativeformat.com/b74f4d47475cd0d70d66f6175ec43d12/invoke.js"></script>
+   
     <div class="hading-sec-2">
         <h3>Top Movies</h3>
     </div>
@@ -516,12 +593,47 @@ footer p {
                 </li>
             </ul>
             <br>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfXii4ooNzeBYZ8l6SJUApT-7H4YaCVnzhTfCX_j1hWQskrJQ/viewform?embedded=true"   style="width: 100vw; overflow-y: scroll;" height="600"   frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+            
             <br>
             <footer>
                 <p>&copy; 2024 Created by Alizaib</p>
             </footer>
             <script>
+
+                 
+  document.addEventListener('DOMContentLoaded', function() {
+    // Delayed popup display
+    setTimeout(function() {
+        var popupBackground = document.getElementById('popup-background');
+        var messageBox = document.getElementById('message-box');
+        
+        popupBackground.style.display = 'block';
+        messageBox.style.display = 'block';
+
+        // Event listeners for buttons
+        var yesButton = document.getElementById('yes-button');
+        var noButton = document.getElementById('no-button');
+        var closeButton = document.getElementById('close-button');
+
+        yesButton.addEventListener('click', function() {
+            window.location.href = 'https://mood2movies.vercel.app/';
+        });
+
+        noButton.addEventListener('click', function() {
+            popupBackground.style.display = 'none';
+            messageBox.style.display = 'none';
+        });
+
+        closeButton.addEventListener('click', function() {
+            popupBackground.style.display = 'none';
+            messageBox.style.display = 'none';
+        });
+
+    }, 4000); // 4000 milliseconds = 4 seconds delay
+});
+
+
+
                 function handleIt(event) {
                     event.preventDefault(); // Prevent the form from submitting immediately
                     document.getElementsByClassName("onett")[0].style.display = "flex";
@@ -569,11 +681,11 @@ footer p {
                 }
 
             </script>
-<script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/insights/script.js"></script>
-  
+            <script>
+                window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+            </script>
+            <script defer src="/_vercel/insights/script.js"></script>
+
 </body>
 
 </html>
